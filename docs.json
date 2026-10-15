@@ -36,8 +36,14 @@
     },
     {
       "group": "API Reference",
-      "openapi": "openapi.yaml",
-      "root": "docs/api-reference-overview"
+      "openapi": "/openapi.yaml",
+      "root": "docs/api-reference-overview",
+      "pages": [
+        "POST /public/v2/users",
+        "GET /public/v2/users/{id}",
+        "PATCH /public/v2/users/{id}",
+        "DELETE /public/v2/users/{id}"
+      ]
     }
   ]
 },
