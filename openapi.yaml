@@ -17,6 +17,8 @@ components:
 paths:
   /public/v2/users:
     post:
+      tags:
+        - HRDb
       summary: Onboard a new employee
       description: Creates a fresh employee profile inside the database.
       requestBody:
@@ -66,8 +68,11 @@ paths:
                   status:
                     type: string
                     example: "Active"
+  
   /public/v2/users/{id}:
     get:
+      tags:
+        - HRDb
       summary: Retrieve employee information
       description: Retrieves an existing employee record for review using their unique system ID.
       parameters:
@@ -103,6 +108,8 @@ paths:
                     description: Employee's work status.
                     example: "Active"
     patch:
+      tags:
+        - HRDb
       summary: Update employee information
       description: Partially modifies an existing employee record using their unique system ID.
       parameters:
@@ -130,6 +137,8 @@ paths:
         '200':
           description: Employee information updated successfully.
     delete:
+      tags:
+        - HRDb
       summary: Offboard an employee
       description: Permanently purges an employee record from the active directory database.
       parameters:
