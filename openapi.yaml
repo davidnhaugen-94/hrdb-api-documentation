@@ -19,7 +19,7 @@ paths:
     post:
       tags:
         - HRDb
-      summary: Onboard a new employee
+      summary: Onboard New Employee
       description: Creates a fresh employee profile inside the database.
       requestBody:
         required: true
@@ -73,7 +73,7 @@ paths:
     get:
       tags:
         - HRDb
-      summary: Retrieve employee information
+      summary: Retrieve Employee Information
       description: Retrieves an existing employee record for review using their unique system ID.
       parameters:
         - name: id
@@ -110,7 +110,7 @@ paths:
     patch:
       tags:
         - HRDb
-      summary: Update employee information
+      summary: Update Employee Information
       description: Partially modifies an existing employee record using their unique system ID.
       parameters:
         - name: id
@@ -139,7 +139,7 @@ paths:
     delete:
       tags:
         - HRDb
-      summary: Offboard an employee
+      summary: Offboard Employee
       description: Permanently purges an employee record from the active directory database.
       parameters:
         - name: id
