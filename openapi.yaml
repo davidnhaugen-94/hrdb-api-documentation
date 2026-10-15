@@ -1,0 +1,145 @@
+openapi: 3.0.0
+info:
+  title: The HRDb
+  description: Welcome to the Human Resources Database (HRDb) developer reference. This unified API platform provides companies with a complete human resources database that can be incorporated with existing company internal software.
+  version: 1.1.0
+servers:
+  - url: https://gorest.co.in
+    description: Go Rest HRdb
+security:
+  - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+paths:
+  /public/v2/users:
+    post:
+      summary: Onboard a new employee
+      description: Creates a fresh employee profile inside the database.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - email
+                - gender
+                - status
+              properties:
+                name:
+                  type: string
+                  example: "Jane Doe"
+                email:
+                  type: string
+                  example: "jane.doe2@HRdb.fake"
+                gender:
+                  type: string
+                  example: "Female"
+                status:
+                  type: string
+                  example: "Active"
+      responses:
+        '201':
+          description: Employee profile created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 8615427
+                  name:
+                    type: string
+                    example: "Jane Doe"
+                  email:
+                    type: string
+                    example: "jane.doe@HRdb.fake"
+                  gender:
+                    type: string
+                    example: "Female"
+                  status:
+                    type: string
+                    example: "Active"
+  /public/v2/users/{id}:
+    get:
+      summary: Retrieve employee information
+      description: Retrieves an existing employee record for review using their unique system ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The unique numeric ID of the employee.
+          schema:
+            type: integer
+            example: 8615427
+      responses:
+        '200':
+          description: Employee info retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object 
+                properties: 
+                  name:
+                    type: string
+                    description: Name of the employee.
+                    example: "Jane Doe"
+                  email:
+                    type: string 
+                    description: Email address of the employee.
+                    example: "jane.doe@HRdb.fake"
+                  gender:
+                    type: string 
+                    description: Gender of the employee.
+                    example: "Female"
+                  status:
+                    type: string 
+                    description: Employee's work status.
+                    example: "Active"
+    patch:
+      summary: Update employee information
+      description: Partially modifies an existing employee record using their unique system ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The unique numeric ID of the employee.
+          schema:
+            type: integer
+            example: 8615427
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Jane Smith"
+                email:
+                  type: string
+                  example: "jane.smith@HRdb.fake"
+      responses:
+        '200':
+          description: Employee information updated successfully.
+    delete:
+      summary: Offboard an employee
+      description: Permanently purges an employee record from the active directory database.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The unique numeric ID of the employee to delete.
+          schema:
+            type: integer
+            example: 8615427
+      responses:
+        '204':
+          description: Employee successfully deleted. No content returned.

@@ -1,0 +1,32 @@
+---
+title: "Data Handling & Fields Validation"
+---
+
+To ensure directory integrity and prevent database corruption, the Go Rest HRDb engine enforces strict schema validations on all inbound write operations (`POST`, `PUT`, `PATCH`). 
+
+Before structuring your JSON request bodies, review the comprehensive field definitions, data types, and enum constraints detailed below.
+
+
+## HRDb Validation Rules
+
+1.  **Unique Email Address:** The `email` field must be globally unique across the entire database directory. Attempting to onboard or update a profile using an email address that already exists inside the system will instantly fail and trigger an error.
+2.  **Strict Data Types:** All text parameters must be submitted as strings enclosed in double quotes. Numeric variables (such as user tracking IDs) must be processed as raw integers.
+
+## HRDb Field Attributes
+
+The following table defines the parameters required by the Go Rest HRDb schema:
+
+| Field Key | Data Type | Constraint Type | Accepted Values / Formats | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| `id` | Integer | System Generated | Read-only (e.g., `7548931`) | The unique ID assigned automatically upon creation. |
+| `name` | String | Required | Text characters (Max 255) | The full name of the employee. |
+| `email` | String | Required & Unique | Valid RFC email structure | The designated corporate email address (e.g., `user@hrdb.fake`). |
+| `gender` | String | Required Enum | `"Male"` \| `"Female"` | Enforced field selection list. The engine rejects shorthand abbreviations like "M" or "F". |
+| `status` | String | Required Enum | `"Active"` \| `"Inactive"` | Controls directory profile routing states and active security permissions. |
+
+## Enforced Text Transformations
+
+The Go Rest HRDb gateway automates standard normalization procedures on properties to optimize search across internal systems:
+
+*   **Case Insensitivity on Inbound Emails:** While your client software can pass uppercase characters (e.g., `JOHN.DOE@HRdb.fake`), the database engine transforms the data layer into pure lowercase arrays prior to checking for unique index collisions.
+*   **Whitespace Trimming:** The server systematically strips leading and trailing spaces from the `name` and `email` properties to prevent parsing errors inside target directory portals.

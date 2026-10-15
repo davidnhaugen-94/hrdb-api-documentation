@@ -1,0 +1,75 @@
+---
+title: "Getting Started: Building the Go Rest HRDb"
+sidebarTile: "Getting Started"
+---
+
+This document guides engineers through programmatically onboarding a new employee, updating their operational directory status, and verifying their finalized record inside the **Go Rest HRDb**. 
+
+By performing these operations in order, your internal IT workflows can seamlessly sync the employee lifecycle in a single code pipeline.
+
+## Prerequisites
+Before you begin, ensure you have:
+*   An active, verified **Bearer Access Token** generated via the GoRest portal: https://gorest.co.in/my-account/access-tokens)
+*   An HTTPS client interface (such as Postman) or a local runtime application layer.
+
+## Step 1: Configure Authentication & Structure the Data
+
+Every write transaction (`POST`, `PATCH`, `DELETE`) sent to the Go Rest HRDb requires secure token verification passed natively inside the HTTPS header. 
+
+### 1. Configure Your Headers
+Add the following authorization key-value pair to your request layout:
+*   **KEY:** `Authorization`
+*   **VALUE:** `Bearer <YOUR_ALPHANUMERIC_TOKEN_STRING>`
+
+### 2. Format the Request Body
+Construct your company's employee data in the standard JSON format. The network requires unique strings for the `email` field to prevent directory duplication faults.
+
+```json
+{
+  "name": "Alex Mercer",
+  "email": "alex.mercer.101@hrdb.fake",
+  "gender": "male",
+  "status": "active"
+}
+```
+
+## Step 2: Provision the New Employee Record (POST)
+
+With your prepared authentication header and JSON data, execute a `POST` operation to write the employee data profile into the live directory collection.
+
+### 1. Execute the Request
+Execute a **`POST`** command targeting the collection route:
+```http
+POST https://gorest.co.in
+```
+
+### 2. Capture the System ID
+When the transaction completes successfully, the database will return an HTTPS **`201 Created`** status code. 
+
+Locate the unique, automatically generated `"id"` property in the server's response block (e.g., `7548931`). **Copy this ID string immediately.** Your client application will need this exact path parameter to target this specific employee file for all future updates or removals.
+
+
+## Step 3: Modify Status & Verify the Directory Profile (PATCH & GET)
+
+To simulate an employee status change (such as an administrative leave or departure update), use the unique numeric ID captured in Step 2 to target and verify the file modifications.
+
+### 1. Execute a Status Update (PATCH)
+Change your HTTPS method dropdown to **`PATCH`** and append the employee's unique ID directly to the end of the URL path directory. Send a isolated request body to toggle the current employee status:
+
+*   **Endpoint Route:** `https://gorest.co.in/7548931`
+*   **JSON Request Body:**
+```json
+{
+  "status": "inactive"
+}
+```
+*   **Expected Response:** The network will return an HTTPS **`200 OK`** verification code, confirming the field override succeeded.
+
+### 2. Verify and Confirm Changes (GET)
+To ensure the live records permanently match your updates, clear your request body completely and execute a final, single-target read command:
+
+```https
+GET https://gorest.co.in/7548931
+```
+
+Review the response pane. The array wrappers will be gone, and the database will output the singular profile file, demonstrating that the `"status"` field reads `"inactive"` while maintaining the employee's original tracking metrics.

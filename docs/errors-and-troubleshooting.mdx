@@ -1,0 +1,38 @@
+---
+title: "HTTPS Error Handling & Troubleshooting Reference"
+sidebarTitle: "Error Handling & Troubleshooting"
+---
+
+The Go Rest HRDb API platform leverages standard HTTPS response status codes to communicate the success or failure of database transactions. When an operation encounters a block, the gateway outputs a structured JSON error array detailing the exact nature of the validation failure.
+
+## HTTPS Response Overview
+*   `200 OK` – The modification transaction (`PUT` / `PATCH`) was written to the directory successfully.
+*   `201 Created` – The employee onboarding process (`POST`) successfully generated a new database record.
+*   `204 No Content` – The offboarding deletion (`DELETE`) succeeded. The targeted record no longer exists.
+*   `401 Unauthorized` – Security credentials failed verification.
+*   `404 Not Found` – The target directory path or individual user ID could not be located.
+*   `422 Unprocessable Entity` – The payload data violated schema integrity rules.
+
+## Troubleshooting Client-Side Errors (4xx)
+
+### 401 Unauthorized
+*   **Root Cause:** The mandatory security token is missing from your inbound request headers, or the alphanumeric string signature has expired.
+*   **Resolution Verification:** Open your HTTPS client layout and ensure your header properties include an `Authorization` key mapped precisely to a valid `Bearer <YOUR_TOKEN>` string. Note the required single space between the authentication type and your credential hash.
+
+### 404 Not Found
+*   **Root Cause 1:** A character typo exists within your URL endpoint string path (such as omitting the plural "s" in `/users`).
+*   **Root Cause 2 (Data Lifecycle Conflict):** Because Go Rest functions as a globally shared testing sandbox, individual employee resource profiles are routinely targeted for offboarding deletions by separate engineering scripts. If an ID vanishes mid-session, the server will throw a 404 error.
+*   **Resolution Verification:** Re-run a global collection `GET` request to pull a fresh, active user ID, or quickly issue new onboarding `POST` data to generate an ID string completely native to your test cycle.
+
+### 422 Unprocessable Entity
+*   **Root Cause:** Your JSON request body successfully reached the server, but the contents failed the database validation dictionary criteria. This most commonly occurs if you submit a duplicate email address or pass a value that violates a strict Enum requirement (such as typing `"M"` instead of `"male"`).
+*   **Data Payload Example Response:**
+    ```json
+    [
+      {
+        "field": "email",
+        "message": "has already been taken"
+      }
+    ]
+    ```
+*   **Resolution Verification:** Inspect the returned message array. Isolate the broken property field name and adjust your application text input syntax to follow the required database specifications.
