@@ -29,7 +29,6 @@
       "root": "docs/intro",
       "pages": [
         "docs/intro",
-        "docs/api-reference-overview",
         "docs/getting-started-tutorial",
         "docs/data-handling-guides",
         "docs/errors-and-troubleshooting"
