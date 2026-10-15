@@ -42,7 +42,7 @@
         "/openapi.yaml POST /users",
         "/openapi.yaml GET /users/{id}",
         "/openapi.yaml PATCH /users/{id}",
-        "/openapi.yaml /openapi.yaml /openapi.yaml DELETE /users/{id}"
+        "/openapi.yaml DELETE /users/{id}"
       ]
     }
   ]
