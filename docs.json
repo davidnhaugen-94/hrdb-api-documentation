@@ -37,13 +37,7 @@
     {
       "group": "API Reference",
       "openapi": "openapi.yaml",
-      "root": "docs/api-reference-overview",
-      "pages": [
-        "/openapi.yaml POST /users",
-        "/openapi.yaml GET /users/{id}",
-        "/openapi.yaml PATCH /users/{id}",
-        "/openapi.yaml DELETE /users/{id}"
-      ]
+      "root": "docs/api-reference-overview"
     }
   ]
 },
