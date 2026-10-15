@@ -13,12 +13,12 @@
     "anchors": [
       {
         "anchor": "GoRest",
-        "href": "https://www.census.gov/data/developers.html",
+        "href": "https://gorest.co.in/",
         "icon": "landmark"
       },
       {
         "anchor": "GitHub Repo",
-        "href": "https://github.com/davidnhaugen-94/us-census-api-documentation-site",
+        "href": "https://github.com/davidnhaugen-94/hrdb-api-documentation",
         "icon": "github"
       }
     ]
